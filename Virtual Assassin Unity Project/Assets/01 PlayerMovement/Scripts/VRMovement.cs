@@ -16,11 +16,14 @@ public class VRMovement : MonoBehaviour
     [SerializeField] private float speed = 2;
     [ReadOnly][SerializeField]
     private Vector2 moveInput = Vector2.zero;
+    public Vector2 MoveInput { set { this.moveInput = value; } }
+
     [Tooltip("The amount the player rotates when using the snap rotation")]
     [SerializeField] private int snapIncrement = 45;
     [SerializeField] private float minimumTurnInput = 0.5f;
     [ReadOnly][SerializeField]
     private Vector2 turnInput = Vector2.zero;
+    public Vector2 TurnInput { set { this.turnInput = value; } }
 
     /// <summary> Velocity is the speed that gets build up while the plays is falling. if the player is grounded it get set to 0.0f, -2.0f, 0.0f. </summary>
     [ReadOnly][SerializeField]
