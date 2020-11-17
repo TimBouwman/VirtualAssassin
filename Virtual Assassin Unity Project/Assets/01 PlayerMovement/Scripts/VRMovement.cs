@@ -1,7 +1,7 @@
 ﻿//author: Tim Bouwman
 //Github: https://github.com/TimBouwman
-using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 /// <summary>
 /// This class is resposeble for moving and rotating the player object.
@@ -35,6 +35,8 @@ public class VRMovement : MonoBehaviour
     public Transform Head { get { return this.head; } }
     private Transform lookIndex;
     private CharacterController characterController;
+
+    [SerializeField] private Volume comfort = null;
     #endregion
 
     #region Unity Methods
@@ -45,9 +47,10 @@ public class VRMovement : MonoBehaviour
     private void Update()
     {
         BodyHandler();
-        MovementHandler();
-        GravityHandler();
-        SnapRotation();
+        Move();
+        Gravity();
+        SnapRotate();
+        Comfort();
     }
     #endregion
 
@@ -87,7 +90,7 @@ public class VRMovement : MonoBehaviour
     /// <summary>
     /// This method handels the movement of the player it does this reletive to the rotation of the head.
     /// </summary>
-    private void MovementHandler()
+    private void Move()
     {
         Quaternion rotation = head.localRotation;
         rotation.x = 0;
@@ -103,7 +106,7 @@ public class VRMovement : MonoBehaviour
     /// <summary>
     /// Appleys gravity to the player object it uses this formula Δy = ½g·t² to calculate the increasing velocity when falling.
     /// </summary>
-    private void GravityHandler()
+    private void Gravity()
     {
         //this if statment makes sure you stop exelorating when you on the ground
         if (characterController.isGrounded && velocity.y < 0f)
@@ -117,12 +120,17 @@ public class VRMovement : MonoBehaviour
     /// when the if statement is true the player object rotates around the head object so that the player collider
     /// stays in the same position and does not clip through another object
     /// </summary>
-    private void SnapRotation()
+    private void SnapRotate()
     {
         if (turnInput.x < -minimumTurnInput)
             this.transform.RotateAround(head.position, Vector3.up, -Mathf.Abs(snapIncrement));
         else if (turnInput.x > minimumTurnInput)
             this.transform.RotateAround(head.position, Vector3.up, Mathf.Abs(snapIncrement));
+    }
+    private void Comfort()
+    {
+        if(moveInput != Vector2.zero)
+            comfort.weight = Mathf.Abs(moveInput.x) + Mathf.Abs(moveInput.y);
     }
     #endregion
 }
