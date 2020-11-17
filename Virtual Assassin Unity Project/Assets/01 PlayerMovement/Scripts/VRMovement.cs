@@ -14,10 +14,13 @@ public class VRMovement : MonoBehaviour
     [Header("Movement Value's")]
     [Tooltip("The speed with which the player moves")]
     [SerializeField] private float speed = 2;
+    [ReadOnly][SerializeField]
+    private Vector2 moveInput = Vector2.zero;
     [Tooltip("The amount the player rotates when using the snap rotation")]
     [SerializeField] private int snapIncrement = 45;
     [SerializeField] private float minimumTurnInput = 0.5f;
-    private Vector2 moveInput = Vector2.zero, turnInput = Vector2.zero;
+    [ReadOnly][SerializeField]
+    private Vector2 turnInput = Vector2.zero;
 
     /// <summary> Velocity is the speed that gets build up while the plays is falling. if the player is grounded it get set to 0.0f, -2.0f, 0.0f. </summary>
     [ReadOnly][SerializeField]
@@ -34,13 +37,7 @@ public class VRMovement : MonoBehaviour
     #region Unity Methods
     private void Start()
     {
-        characterController = this.GetComponent<CharacterController>();
-
-        //create look index
-        lookIndex = new GameObject("Look Index").transform;
-        lookIndex.position = head.position;
-        lookIndex.rotation = head.rotation;
-        lookIndex.parent = head.parent;
+        Setup();
     }
     private void Update()
     {
@@ -52,6 +49,17 @@ public class VRMovement : MonoBehaviour
     #endregion
 
     #region Custom Methods
+    private void Setup()
+    {
+        characterController = this.GetComponent<CharacterController>();
+
+        //create look index
+        lookIndex = new GameObject("Look Index").transform;
+        lookIndex.position = head.position;
+        lookIndex.rotation = head.rotation;
+        lookIndex.parent = head.parent;
+    }
+
     /// <summary>
     /// This method is resposeble for keeping the collider underneath the players head
     /// and making it smaller when the player ducks down.
