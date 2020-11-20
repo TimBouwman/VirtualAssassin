@@ -10,7 +10,8 @@ using UnityEngine.XR;
 public class InputHandler : MonoBehaviour
 {
     #region Variables
-    [SerializeField] private VRMovement movementScript = null;
+    [SerializeField] private VRLocomotion movement = null;
+    [SerializeField] private VRTurning turning = null;
     [SerializeField] private InputDeviceCharacteristics leftController = InputDeviceCharacteristics.None, rightController = InputDeviceCharacteristics.None;
     private InputDevice leftInputDevice, rightInputDevice;
     #endregion
@@ -41,9 +42,9 @@ public class InputHandler : MonoBehaviour
     private void GetInput()
     {
         leftInputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 moveInput);
-        movementScript.MoveInput = moveInput;
+        movement.MoveInput = moveInput;
         rightInputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 turnInput);
-        movementScript.TurnInput = turnInput;
+        turning.TurnInput = turnInput;
     }
     #endregion
 }
