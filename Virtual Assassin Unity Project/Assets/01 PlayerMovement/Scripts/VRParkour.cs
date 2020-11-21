@@ -1,6 +1,8 @@
 ﻿//author: Tim Bouwman
 //Github: https://github.com/TimBouwman
 using UnityEngine;
+using UnityEngine.XR;
+using UnityEngine.XR.Interaction.Toolkit;
 
 /// <summary>
 /// 
@@ -13,17 +15,30 @@ public class VRParkour : MonoBehaviour
     [SerializeField]
     private Vector3 velocity;
     private CharacterController characterController;
+    public static XRController climbingHand;
+    private VRLocomotion locomotion;
+
     #endregion
 
     #region Unity Methods
     private void Start()
     {
-        
+        characterController = this.GetComponent<CharacterController>();
+        locomotion = this.GetComponent<VRLocomotion>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        
+        if (climbingHand)
+        {
+            Climbing();
+            locomotion.enabled = false;
+        }
+        else
+        {
+            Gravity();
+            locomotion.enabled = true;
+        }
     }
     #endregion
 
@@ -39,6 +54,11 @@ public class VRParkour : MonoBehaviour
         else //increasing velocity while faling
             velocity += UnityEngine.Physics.gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
+    }
+    private void Climbing()
+    {
+        InputDevices.GetDeviceAtXRNode(climbingHand.controllerNode).TryGetFeatureValue(CommonUsages.deviceVelocity, out Vector3 velocity);
+        characterController.Move(-velocity * Time.fixedDeltaTime);
     }
     #endregion
 }

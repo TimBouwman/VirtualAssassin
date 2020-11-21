@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 854070290899966692}
   - component: {fileID: 854070290899966690}
   - component: {fileID: 854070290899966693}
+  - component: {fileID: 854070291410955136}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -128,7 +129,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 2
   m_Height: 2
-  m_Radius: 0.17
+  m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -148,12 +149,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   moveInput: {x: 0, y: 0}
+  head: {fileID: 854070292170287352}
+  forwardMovement: {fileID: 854070292170287352}
+  comfort: 0
+  comfortVignette: {fileID: 854070292417355573}
+--- !u!114 &854070291410955136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854070290899966695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6507634159706284a9e1c8d2bf25149a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  head: {fileID: 854070292170287352}
+  turnType: 0
+  turnInput: {x: 0, y: 0}
   snapIncrement: 45
   minimumTurnInput: 0.5
-  turnInput: {x: 0, y: 0}
-  velocity: {x: 0, y: 0, z: 0}
-  head: {fileID: 854070292170287352}
-  comfort: {fileID: 854070292417355573}
+  turned: 0
+  smoothTurnSpeed: 75
 --- !u!1 &854070291802980309
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,7 +232,7 @@ GameObject:
   - component: {fileID: 854070291860322608}
   - component: {fileID: 854070291410955138}
   - component: {fileID: 854070291410955137}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: RightController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -256,8 +274,6 @@ MonoBehaviour:
   m_AnimateModel: 0
   m_ModelSelectTransition: 
   m_ModelDeSelectTransition: 
-  m_AnchorControlDeadzone: 0.75
-  m_AnchorControlOffAxisDeadzone: 0.3
   m_ControllerNode: 5
   m_SelectUsage: 3
   m_ActivateUsage: 2
@@ -283,7 +299,7 @@ MonoBehaviour:
   m_InteractionManager: {fileID: 0}
   m_InteractionLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 256
   m_AttachTransform: {fileID: 0}
   m_StartingSelectedInteractable: {fileID: 0}
   m_OnHoverEntered:
@@ -298,8 +314,8 @@ MonoBehaviour:
   m_OnSelectExited:
     m_PersistentCalls:
       m_Calls: []
-  m_SelectActionTrigger: 0
-  m_HideControllerOnSelect: 0
+  m_SelectActionTrigger: 1
+  m_HideControllerOnSelect: 1
   m_PlayAudioClipOnSelectEntered: 0
   m_AudioClipForOnSelectEntered: {fileID: 0}
   m_PlayAudioClipOnSelectExited: 0
@@ -308,12 +324,12 @@ MonoBehaviour:
   m_AudioClipForOnHoverEntered: {fileID: 0}
   m_PlayAudioClipOnHoverExited: 0
   m_AudioClipForOnHoverExited: {fileID: 0}
-  m_PlayHapticsOnSelectEntered: 0
-  m_HapticSelectEnterIntensity: 0
-  m_HapticSelectEnterDuration: 0
-  m_PlayHapticsOnSelectExited: 0
-  m_HapticSelectExitIntensity: 0
-  m_HapticSelectExitDuration: 0
+  m_PlayHapticsOnSelectEntered: 1
+  m_HapticSelectEnterIntensity: 0.2
+  m_HapticSelectEnterDuration: 0.2
+  m_PlayHapticsOnSelectExited: 1
+  m_HapticSelectExitIntensity: 0.2
+  m_HapticSelectExitDuration: 0.2
   m_PlayHapticsOnHoverEntered: 0
   m_HapticHoverEnterIntensity: 0
   m_HapticHoverEnterDuration: 0
@@ -345,7 +361,7 @@ GameObject:
   - component: {fileID: 854070291993114059}
   - component: {fileID: 854070291410955140}
   - component: {fileID: 854070291410955139}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: LeftController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -387,8 +403,6 @@ MonoBehaviour:
   m_AnimateModel: 0
   m_ModelSelectTransition: 
   m_ModelDeSelectTransition: 
-  m_AnchorControlDeadzone: 0.75
-  m_AnchorControlOffAxisDeadzone: 0.3
   m_ControllerNode: 4
   m_SelectUsage: 3
   m_ActivateUsage: 2
@@ -414,7 +428,7 @@ MonoBehaviour:
   m_InteractionManager: {fileID: 0}
   m_InteractionLayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 256
   m_AttachTransform: {fileID: 0}
   m_StartingSelectedInteractable: {fileID: 0}
   m_OnHoverEntered:
@@ -429,8 +443,8 @@ MonoBehaviour:
   m_OnSelectExited:
     m_PersistentCalls:
       m_Calls: []
-  m_SelectActionTrigger: 0
-  m_HideControllerOnSelect: 0
+  m_SelectActionTrigger: 1
+  m_HideControllerOnSelect: 1
   m_PlayAudioClipOnSelectEntered: 0
   m_AudioClipForOnSelectEntered: {fileID: 0}
   m_PlayAudioClipOnSelectExited: 0
@@ -439,12 +453,12 @@ MonoBehaviour:
   m_AudioClipForOnHoverEntered: {fileID: 0}
   m_PlayAudioClipOnHoverExited: 0
   m_AudioClipForOnHoverExited: {fileID: 0}
-  m_PlayHapticsOnSelectEntered: 0
-  m_HapticSelectEnterIntensity: 0
-  m_HapticSelectEnterDuration: 0
-  m_PlayHapticsOnSelectExited: 0
-  m_HapticSelectExitIntensity: 0
-  m_HapticSelectExitDuration: 0
+  m_PlayHapticsOnSelectEntered: 1
+  m_HapticSelectEnterIntensity: 0.2
+  m_HapticSelectEnterDuration: 0.2
+  m_PlayHapticsOnSelectExited: 1
+  m_HapticSelectExitIntensity: 0.2
+  m_HapticSelectExitDuration: 0.2
   m_PlayHapticsOnHoverEntered: 0
   m_HapticHoverEnterIntensity: 0
   m_HapticHoverEnterDuration: 0

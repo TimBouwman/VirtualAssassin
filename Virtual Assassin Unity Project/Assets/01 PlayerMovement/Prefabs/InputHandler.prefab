@@ -43,6 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4759ab382b91289458fee2f95a320d7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementScript: {fileID: 0}
+  movement: {fileID: 0}
+  turning: {fileID: 0}
   leftController: 256
   rightController: 512

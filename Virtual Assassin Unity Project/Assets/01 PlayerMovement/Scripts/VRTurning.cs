@@ -29,11 +29,15 @@ public class VRTurning : MonoBehaviour
     [SerializeField]
     [Tooltip("The minimum amount if input needed for the snap turn to activate")]
     private float minimumTurnInput = 0.5f;
+
+    [ReadOnly]
+    [SerializeField]
+    private bool turned = false;
     
     [Header("Smooth Turn")]
     [SerializeField]
     [Tooltip("The speed the player rotates with when using smooth turn")]
-    private float smoothTurnSpeed = 5f;
+    private float smoothTurnSpeed = 75f;
     #endregion
 
     #region Unity Methods
@@ -64,14 +68,28 @@ public class VRTurning : MonoBehaviour
     /// </summary>
     private void SnapTurn()
     {
-        if(turnInput.x < -minimumTurnInput)
-            this.transform.RotateAround(head.position, Vector3.up, -Mathf.Abs(snapIncrement));
-        else if(turnInput.x > minimumTurnInput)
-            this.transform.RotateAround(head.position, Vector3.up, Mathf.Abs(snapIncrement));
+        if (turnInput.x < -minimumTurnInput)
+        {
+            if (!turned)
+            {
+                this.transform.RotateAround(head.position, Vector3.up, -Mathf.Abs(snapIncrement));
+                turned = true;
+            }
+        }
+        else if (turnInput.x > minimumTurnInput)
+        {
+            if (!turned)
+            {
+                this.transform.RotateAround(head.position, Vector3.up, Mathf.Abs(snapIncrement));
+                turned = true;
+            }
+        }
+        else turned = false;
     }
     private void SmoothTurn()
     {
-
+        if (turnInput.x != 0)
+            this.transform.RotateAround(head.position, Vector3.up, smoothTurnSpeed * turnInput.x * Time.deltaTime);
     }
     #endregion
 }
