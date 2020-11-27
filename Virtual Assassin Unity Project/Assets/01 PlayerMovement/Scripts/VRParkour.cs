@@ -17,6 +17,7 @@ public class VRParkour : MonoBehaviour
     private CharacterController characterController;
     public static XRController climbingHand;
     private VRLocomotion locomotion;
+    private Vector3 oldPos = Vector3.zero;
 
     #endregion
 
@@ -58,7 +59,8 @@ public class VRParkour : MonoBehaviour
     private void Climbing()
     {
         InputDevices.GetDeviceAtXRNode(climbingHand.controllerNode).TryGetFeatureValue(CommonUsages.deviceVelocity, out Vector3 velocity);
-        characterController.Move(-velocity * Time.fixedDeltaTime);
+        oldPos = climbingHand.transform.position;
+        characterController.Move(transform.rotation * -velocity * Time.fixedDeltaTime);
     }
     #endregion
 }

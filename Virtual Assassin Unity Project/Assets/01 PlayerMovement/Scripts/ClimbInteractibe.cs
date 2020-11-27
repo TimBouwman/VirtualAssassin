@@ -1,6 +1,5 @@
 ﻿//author: Tim Bouwman
 //Github: https://github.com/TimBouwman
-using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class ClimbInteractibe : XRBaseInteractable
@@ -19,12 +18,12 @@ public class ClimbInteractibe : XRBaseInteractable
         onSelectExited.RemoveListener(Drop);
     }
 
-    protected virtual void Grab(XRBaseInteractor interactor)
+    private void Grab(XRBaseInteractor interactor)
     {
         VRParkour.climbingHand = interactor.GetComponent<XRController>();
     }
 
-    protected virtual void Drop(XRBaseInteractor interactor)
+    private void Drop(XRBaseInteractor interactor)
     {
         if (VRParkour.climbingHand && VRParkour.climbingHand.name == interactor.name)
         {
