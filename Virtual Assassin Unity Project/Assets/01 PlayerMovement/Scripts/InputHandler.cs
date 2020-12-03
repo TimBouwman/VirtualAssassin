@@ -12,6 +12,7 @@ public class InputHandler : MonoBehaviour
     #region Variables
     [SerializeField] private VRLocomotion movement = null;
     [SerializeField] private VRTurning turning = null;
+    [SerializeField] private VRParkour parkour = null;
     [SerializeField] private InputDeviceCharacteristics leftController = InputDeviceCharacteristics.None, rightController = InputDeviceCharacteristics.None;
     private InputDevice leftInputDevice, rightInputDevice;
     #endregion
@@ -43,6 +44,7 @@ public class InputHandler : MonoBehaviour
     {
         leftInputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 moveInput);
         movement.MoveInput = moveInput;
+        parkour.MoveInput = moveInput;
         rightInputDevice.TryGetFeatureValue(CommonUsages.primary2DAxis, out Vector2 turnInput);
         turning.TurnInput = turnInput;
     }

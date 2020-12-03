@@ -25,6 +25,7 @@ public class VRLocomotion : MonoBehaviour
     [SerializeField] private Transform head = null;
     [SerializeField] private Transform forwardMovement = null;
     private Transform lookIndex;
+    public Transform LookIndex { get { return this.lookIndex; } }
     private CharacterController characterController;
 
     [Header("Vignette")]

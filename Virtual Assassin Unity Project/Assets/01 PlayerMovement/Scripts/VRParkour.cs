@@ -10,6 +10,11 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class VRParkour : MonoBehaviour
 {
     #region Variables
+    [SerializeField]
+    [ReadOnly]
+    [Tooltip("The input must be set by a external inputhandler")]
+    private Vector2 moveInput = Vector2.zero;
+    public Vector2 MoveInput { set { this.moveInput = value; } }
     /// <summary> Velocity is the speed that gets build up while the plays is falling. if the player is grounded it get set to 0.0f, -2.0f, 0.0f. </summary>
     [ReadOnly]
     [SerializeField]
@@ -17,7 +22,7 @@ public class VRParkour : MonoBehaviour
     private CharacterController characterController;
     public static XRController climbingHand;
     private VRLocomotion locomotion;
-    private Vector3 oldPos = Vector3.zero;
+    private Transform precisionJumpDirection;
 
     #endregion
 
@@ -26,6 +31,12 @@ public class VRParkour : MonoBehaviour
     {
         characterController = this.GetComponent<CharacterController>();
         locomotion = this.GetComponent<VRLocomotion>();
+
+        //create look index
+        precisionJumpDirection = new GameObject("Look Index").transform;
+        precisionJumpDirection.position = locomotion.LookIndex.position;
+        precisionJumpDirection.rotation = locomotion.LookIndex.rotation;
+        precisionJumpDirection.parent = locomotion.LookIndex.parent;
     }
 
     private void FixedUpdate()
@@ -53,14 +64,20 @@ public class VRParkour : MonoBehaviour
         if(characterController.isGrounded && velocity.y < 0f)
             velocity.y = -2f;
         else //increasing velocity while faling
-            velocity += UnityEngine.Physics.gravity * Time.deltaTime;
+            velocity += Physics.gravity * Time.deltaTime;
         characterController.Move(velocity * Time.deltaTime);
     }
     private void Climbing()
     {
         InputDevices.GetDeviceAtXRNode(climbingHand.controllerNode).TryGetFeatureValue(CommonUsages.deviceVelocity, out Vector3 velocity);
-        oldPos = climbingHand.transform.position;
         characterController.Move(transform.rotation * -velocity * Time.fixedDeltaTime);
+    }
+    private void PrecisionJump()
+    {
+        float x = moveInput.x;
+        float y = moveInput.y;
+        float z = Mathf.Atan2(x, y) * Mathf.Rad2Deg;
+        precisionJumpDirection.eulerAngles = new Vector3(0, 0, -z);
     }
     #endregion
 }
