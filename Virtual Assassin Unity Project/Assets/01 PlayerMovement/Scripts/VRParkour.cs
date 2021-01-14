@@ -32,11 +32,11 @@ public class VRParkour : MonoBehaviour
         characterController = this.GetComponent<CharacterController>();
         locomotion = this.GetComponent<VRLocomotion>();
 
-        //create look index
+        /*create look index
         precisionJumpDirection = new GameObject("Look Index").transform;
         precisionJumpDirection.position = locomotion.LookIndex.position;
         precisionJumpDirection.rotation = locomotion.LookIndex.rotation;
-        precisionJumpDirection.parent = locomotion.LookIndex.parent;
+        precisionJumpDirection.parent = locomotion.LookIndex.parent;*/
     }
 
     private void FixedUpdate()
